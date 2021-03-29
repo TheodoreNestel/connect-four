@@ -44,9 +44,9 @@ function makeHtmlBoard() {
   top.addEventListener("click", handleClick);
 
 
-  for (var x = 0; x < WIDTH; x++) {
+  for (let x = 0; x < WIDTH; x++) {
 
-    var headCell = document.createElement("td");
+    let headCell = document.createElement("td");
     headCell.setAttribute("id", x);
     top.append(headCell);
 
@@ -57,11 +57,11 @@ function makeHtmlBoard() {
   
 
   //tldr uses the setup values to create HTML elements and uses the for loop increment to give them unique IDS
-  for (var y = 0; y < HEIGHT; y++) {
+  for (let y = 0; y < HEIGHT; y++) {
 
     const row = document.createElement("tr");
 
-    for (var x = 0; x < WIDTH; x++) {
+    for (let x = 0; x < WIDTH; x++) {
 
       const cell = document.createElement("td");
 
@@ -120,7 +120,9 @@ function placeInTable(y, x) {
 /** endGame: announce game end */
 
 function endGame(msg) {
- alert(`GG Player ${currPlayer} Wins you suck not player ${currPlayer}`);
+
+ alert(msg);
+
 }
 
 /** handleClick: handle click of column top to play piece */
@@ -128,11 +130,15 @@ function endGame(msg) {
 function handleClick(evt) {
 
   // get x from ID of clicked cell
-  var x = evt.target.id;
+  if (checkForWin()) {
+    return endGame("The game is Over Refresh the page to start again");
+  }
+
+  let x = evt.target.id;
 
   
   // get next spot in column (if none, ignore click)
-  var y = findSpotForCol(x);
+  let y = findSpotForCol(x);
 
   console.log(y);
 
@@ -183,12 +189,12 @@ function checkForWin() {
 
   
 
-  for (var y = 0; y < HEIGHT; y++) {
-    for (var x = 0; x < WIDTH; x++) {
-      var horiz = [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]];
-      var vert = [[y, x], [y + 1, x], [y + 2, x], [y + 3, x]];
-      var diagDR = [[y, x], [y + 1, x + 1], [y + 2, x + 2], [y + 3, x + 3]];
-      var diagDL = [[y, x], [y + 1, x - 1], [y + 2, x - 2], [y + 3, x - 3]];
+  for (let y = 0; y < HEIGHT; y++) {
+    for (let x = 0; x < WIDTH; x++) {
+      let horiz = [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]];
+      let vert = [[y, x], [y + 1, x], [y + 2, x], [y + 3, x]];
+      let diagDR = [[y, x], [y + 1, x + 1], [y + 2, x + 2], [y + 3, x + 3]];
+      let diagDL = [[y, x], [y + 1, x - 1], [y + 2, x - 2], [y + 3, x - 3]];
 
       if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {
         return true;
